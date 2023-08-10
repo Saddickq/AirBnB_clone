@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""This is  base Module that handle creation of new instatnces among others"""
+"""This is base Module that handle creation of new instatnces among others"""
 
 
 from uuid import uuid4
