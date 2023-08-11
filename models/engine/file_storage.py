@@ -18,7 +18,7 @@ class FileStorage():
         """Method that serializes and writes the object's attributes to a JSON file"""
 
         py_string = {key : value.to_dict() for key, value in self.__objects.items()}
-        object_info = json.dump(py_string)
+        object_info = json.dumps(py_string)
 
         """write to JSON file"""
         with open(self.__filepath, 'w') as json_file:
