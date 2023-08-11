@@ -3,7 +3,7 @@
 
 from uuid import uuid4
 from datetime import datetime
-import models
+from models import storage
 
 
 class BaseModel():
@@ -30,14 +30,14 @@ class BaseModel():
             self.id = str(uuid4())
             self.created_at = BaseModel.current_date
             self.updated_at = BaseModel.current_date
-            models.storage.new()
+            storage.new()
 
     def save(self):
         """saving the current date(stored in a pubic instance variable) 
         after every update"""
         new_time  = BaseModel.current_date
         self.updated_at = new_time
-        models.storage.save()
+        storage.save()
 
     def to_dict(self):
         """dictionary representation of any new object instance"""
@@ -59,17 +59,3 @@ class BaseModel():
     def __str__(self):
         """string representation of any new instance created"""
         return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
-
-if __name__ == "__main__":
-    all_objs = models.storage.all()
-    print("-- Reloaded objects --")
-    for obj_id in all_objs.keys():
-        obj = all_objs[obj_id]
-        print(obj)
-
-    print("-- Create a new object --")
-    my_model = BaseModel()
-    my_model.name = "My_First_Model"
-    my_model.my_number = 89
-    my_model.save()
-    print(my_model)

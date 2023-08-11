@@ -39,10 +39,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
-        else:
-            
-            
-    
+
     def emptyline(self):
         pass
     
