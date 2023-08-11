@@ -1,10 +1,11 @@
+#!/usr/bin/python3
 import json
-import os
-class FileStorage():
+import os.path
 
+
+class FileStorage():
     __filepath = "filepath"
     __objects = {}
-
 
     def all(self):
         return self.__objects.__dict__
@@ -13,12 +14,10 @@ class FileStorage():
         """"""
         self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
 
-
     def save(self):
-        """Function that serializes and writes the object's attributes to a JSON file"""
+        """Method that serializes and writes the object's attributes to a JSON file"""
 
         py_string = {key : value.to_dict() for key, value in self.__objects.items()}
-
         object_info = json.dump(py_string)
 
         """write to JSON file"""
