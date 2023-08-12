@@ -7,28 +7,28 @@ This project provides a command-line interpreter or as we like to call it the `C
 ## Quirks and features
 The following provide the several operations performed by the command line interpreter:
 
-**objects creation**
-**serialisation of python objects**
-**Persisting created objects into files**
-**deserialisation of json strings**
-**Retrieving objects from files**
-**Manipulating retrieved objects**
-**Updating stored objects**
-**Destroying an object**
+* objects creation
+* serialisation of python objects
+* Persisting created objects into files
+* deserialisation of json strings
+* Retrieving objects from files
+* Manipulating retrieved objects
+* Updating stored objects
+* Destroying an object
 
 
 # Concepts
 
-**Python packages and modules**
-**packaage and module importation**
-**object oriented programming concepts**
-**datetime module**
-**uuid module**
-**serialisation to json format**
-**deserialisation from json foromat to python object**
-**unittesting**
-**args & kwargs**
-**cmd interpreter**
+* Python packages and modules
+* packaage and module importation
+* object oriented programming concepts
+* datetime module
+* uuid module
+* serialisation to json format
+* deserialisation from json foromat to python object
+* unittesting
+* args & kwargs
+* cmd interpreter
 
 ## Installation
 
@@ -50,16 +50,17 @@ or
 `echo "help" | ./console.py`
 
 
-# example(if you see this then you know you did it right)
+## example
+(if you see this then you know you did it right)
 
 ./console.py
 (hbnb) help
 Documented commands (type help <topic>):
-========================================
+========================================.
 create  help add  change  quit
 
 
-# Testing
+## Testing
 to run the unit tests of the instant program run:
 
 $ python -m unittest discover tests
