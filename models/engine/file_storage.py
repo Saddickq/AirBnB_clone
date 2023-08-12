@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 import json
-import os.path
+from os.path import isfile
 
 
 class FileStorage():
-    __filepath = "file.json"
+    __file_path = "file.json"
     __objects = {}
 
     def all(self):
@@ -21,14 +21,18 @@ class FileStorage():
         object_info = json.dumps(py_string)
 
         """write to JSON file"""
-        with open(self.__filepath, 'w') as json_file:
+        with open(self.__file_path, 'w') as json_file:
             json_file.write(object_info)
 
     def reload(self):
         """Function that loads object's attributes from a JSON file (deserialization process)"""
-        if os.path.exists(self.__filepath):
+        objects = {}
 
-            with open(self.__filepath, 'r') as json_file:
-                object_info = json.load(json_file)
-
-            return object_info
+        if (isfile(FileStorage.__file_path)):
+            with open(FileStorage.__file_path, "r") as file:
+                objects = json.loads(file.read())
+            from models.base_model import BaseModel
+            for key, value in objects.items():
+                class_name = value["__class__"]
+                del value["__class__"]
+                FileStorage.__objects[key] = eval(class_name + "(**value)")
