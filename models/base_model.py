@@ -30,7 +30,7 @@ class BaseModel():
             self.id = str(uuid4())
             self.created_at = BaseModel.current_date
             self.updated_at = BaseModel.current_date
-            storage.new()
+            storage.new(self)
 
     def save(self):
         """saving the current date(stored in a pubic instance variable) 
@@ -55,7 +55,7 @@ class BaseModel():
 
         return dict
 
-
     def __str__(self):
         """string representation of any new instance created"""
+
         return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)

@@ -4,7 +4,7 @@ import os.path
 
 
 class FileStorage():
-    __filepath = "filepath"
+    __filepath = "file.json"
     __objects = {}
 
     def all(self):
