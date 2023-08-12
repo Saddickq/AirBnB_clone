@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-"""This is base Module that handle creation of new instatnces among others"""
-
+"""base Module that handles creation of new instatnces among others"""
 from uuid import uuid4
 from datetime import datetime
 from models import storage
 
 
 class BaseModel():
+
 
     current_date = datetime.now()
 
@@ -17,15 +17,16 @@ class BaseModel():
             and created__at to a datetime object"""
             for key, value in kwargs.items():
                 if key in ["updated_at", "created_at"]:
-                    setattr(self, key, datetime.strptime(value, "%Y-%m-%d %H:%M:%S.%f"))
+                    setattr(self, key, 
+                            datetime.strptime(value, "%Y-%m-%d %H:%M:%S.%f"))
 
                 elif key != "__class__":
                     setattr(self, key, value)
                     """if using kwargs set attribute to (key)'s value to 
-                    class instance(self or Basemodel) """
+                    class instance(self or Basemodel)"""
 
         else:
-            """if not if not using kwargs(!kwargs go by the normal
+            """if not using kwargs(!kwargs go by the normal
             instatiation/creation of a new instance)"""
             self.id = str(uuid4())
             self.created_at = BaseModel.current_date
@@ -47,7 +48,7 @@ class BaseModel():
         dict["created_at"] = self.created_at.isoformat()
 
         for key, value in  self.__dict__.items():
-            
+
             if key in ["created_at", "updated_at"]:
                 dict[key] = str(value)
             else:
@@ -57,5 +58,5 @@ class BaseModel():
 
     def __str__(self):
         """string representation of any new instance created"""
-
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(self.__class__.__name__,
+                                      self.id, self.__dict__)

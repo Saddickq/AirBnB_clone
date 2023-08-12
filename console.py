@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""module containing the cmd interpreter for project"""
 import cmd
 from models.base_model import BaseModel
 from models.engine import file_storage
@@ -6,11 +7,12 @@ from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
+    """derrived class of the inbuilt cmd base class"""
     prompt = "(hbnb) "
     obj_container = storage.all()
 
     def do_create(self, arg):
-        """Create user with uuid"""
+        """method that creates instance with uuid"""
         args = arg.split(" ")
         if not args[0]:
             print("** class name missing **")
@@ -23,16 +25,17 @@ class HBNBCommand(cmd.Cmd):
             print(new_model.id)
 
     def do_EOF(self, arg):
-        """sends Ctrl+D signal to quit the interpreter"""
+        """method that sends Ctrl+D signal to 
+        quit the interpreter"""
         return True
 
     def do_quit(self, arg):
-        """Quit command to exit the program"""
+        """method to quit command to exit the program"""
         return True
 
     def do_show(self, arg):
-        """ Prints the string representation of an instance based on the class name and id
-        Usage: <class_name> <id>"""
+        """method that Prints the string repr of an instance
+        based on the class name and id"""
         
         split_args = arg.split()
         if len(split_args) == 0:
@@ -51,9 +54,9 @@ class HBNBCommand(cmd.Cmd):
                     print("** no instance found **")
     
     def do_destroy(self, arg):
-        """Deletes the specified data from the data base
-        Usage: <class_name> <id>"""
-        
+        """metho that deletes the specified data from the
+        data base Usage: <class_name> <id>"""
+
         split_args = arg.split()
         if len(split_args) == 0:
             print("** class name missing **")
@@ -88,12 +91,12 @@ class HBNBCommand(cmd.Cmd):
         else:
             for value in HBNBCommand.obj_container.values():
                 obj_list.append(str(value))
-    
+
         print(obj_list)
-    
+
     def do_update(self, arg):
-        """Updates an instance based on the class name and id by adding or updating attribute 
-        Usage: <class name> <id> <attribute name> "<attribute value>\""""
+        """Updates an instance based on the class name and id by
+        adding or updating attribute"""
 
         split_args = arg.split()
         if len(split_args) == 0:
@@ -113,11 +116,10 @@ class HBNBCommand(cmd.Cmd):
                     break
                 else:
                     print("** no instance found **")
-            
+
     def emptyline(self):
         """Don't budge"""
         pass
-            
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

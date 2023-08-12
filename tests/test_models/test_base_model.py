@@ -1,4 +1,5 @@
 import unittest
+from models.base_model import BaseModel
 from uuid import UUID
 import datetime
 
