@@ -53,11 +53,11 @@ or
 ## example
 (if you see this then you know you did it right)
 
-./console.py
+```$ ./console.py
 (hbnb) help
 Documented commands (type help <topic>):
-========================================.
-create  help add  change  quit
+========================================
+create  help add  change  quit```
 
 
 ## Testing
