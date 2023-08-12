@@ -11,7 +11,14 @@ class BaseModel():
     current_date = datetime.now()
 
     def __init__(self, *args, **kwargs):
-        """function that initialises a new instance"""
+        """function that initialises a new instance
+        Params
+        args : tuple
+            non-keyworded variable number of arguments.
+        kwargs : dicitonary
+            key-value pair dicitonary
+        """
+
         if kwargs:
             """if using kwargs skip __class__ and revert  updated_at
             and created__at to a datetime object"""
