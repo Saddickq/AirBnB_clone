@@ -8,15 +8,16 @@ from models import storage
 
 class HBNBCommand(cmd.Cmd):
     """derrived class of the inbuilt cmd base class"""
+
     prompt = "(hbnb) "
     obj_container = storage.all()
 
     def do_create(self, arg):
-        """method that creates instance with uuid"""
+        """method that creates instance with uuid
+        quit the interpreter"""
         args = arg.split(" ")
         if not args[0]:
             print("** class name missing **")
-            
         elif args[0] not in ["BaseModel"]:
             print("** class doesn't exist **")
         else:
@@ -25,18 +26,19 @@ class HBNBCommand(cmd.Cmd):
             print(new_model.id)
 
     def do_EOF(self, arg):
-        """method that sends Ctrl+D signal to 
-        quit the interpreter"""
+        """method that sends Ctrl+D signal to quit the interpreter
+        args: argument passed to command """
         return True
 
     def do_quit(self, arg):
-        """method to quit command to exit the program"""
+        """Quit command to exit the program
+        args: argument passed to command"""
         return True
 
     def do_show(self, arg):
         """method that Prints the string repr of an instance
         based on the class name and id"""
-        
+
         split_args = arg.split()
         if len(split_args) == 0:
             print("** class name missing **")
@@ -52,7 +54,7 @@ class HBNBCommand(cmd.Cmd):
                     break
                 else:
                     print("** no instance found **")
-    
+
     def do_destroy(self, arg):
         """metho that deletes the specified data from the
         data base Usage: <class_name> <id>"""
@@ -72,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                     break
                 else:
                     print("** no instance found **")
-                    
+
     def do_all(self, arg):
         """prints the string representation of all classes
         Usage: all [<class_name>]"""
@@ -111,7 +113,8 @@ class HBNBCommand(cmd.Cmd):
             for key in HBNBCommand.obj_container.keys():
                 if str(key) == "{}.{}".format(split_args[0], split_args[1]):
                     """I couldnt type cast the attribute value to """
-                    setattr(HBNBCommand.obj_container[key], split_args[2], split_args[3])
+                    setattr(HBNBCommand.obj_container[key], split_args[2],
+                            split_args[3])
                     storage.save()
                     break
                 else:
@@ -120,6 +123,7 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """Don't budge"""
         pass
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

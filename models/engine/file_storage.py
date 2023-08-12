@@ -21,10 +21,11 @@ class FileStorage():
         self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
 
     def save(self):
-        """Method that serializes and writes python 
+        """Method that serializes and writes python
         object/instance to a JSON file"""
 
-        py_string = {key : value.to_dict() for key, value in self.__objects.items()}
+        py_string = {key: value.to_dict() for key, value in
+                     self.__objects.items()}
         object_info = json.dumps(py_string)
 
         """write to JSON file"""
@@ -32,7 +33,7 @@ class FileStorage():
             json_file.write(object_info)
 
     def reload(self):
-        """method that loads object's json string from a JSON file 
+        """method that loads object's json string from a JSON file
         (deserialization) and displays to user as a python object(dict)"""
         objects = {}
 
