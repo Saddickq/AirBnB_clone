@@ -1,8 +1,10 @@
 #!/usr/bin/python3
+"""module for object place"""
 from models.base_model import BaseModel
 
 
 class Place(BaseModel):
+    """derived class of the base class BaseModel"""
 
     city_id = ""
     user_id = ""
