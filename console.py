@@ -4,6 +4,7 @@ import cmd
 from models.base_model import BaseModel
 from models.engine import file_storage
 from models import storage
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -11,6 +12,8 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
     obj_container = storage.all()
+    classes = ["BaseModel", "User", "Place", "State",
+               "City", "Amenity", "Review"]
 
     def do_create(self, arg):
         """method that creates instance with uuid
@@ -18,10 +21,10 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split(" ")
         if not args[0]:
             print("** class name missing **")
-        elif args[0] not in ["BaseModel"]:
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
         else:
-            new_model = BaseModel()
+            new_model = eval(args[0])()
             new_model.save()
             print(new_model.id)
 
@@ -44,7 +47,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         elif len(split_args) == 1:
             print("** instance id missing **")
-        elif split_args[0] not in ["BaseModel"]:
+        elif split_args[0] not in self.classes:
             print("** class doesn't exist **")
         else:
             for key in HBNBCommand.obj_container.keys():
@@ -62,7 +65,7 @@ class HBNBCommand(cmd.Cmd):
         split_args = arg.split()
         if len(split_args) == 0:
             print("** class name missing **")
-        elif split_args[0] not in ["BaseModel"]:
+        elif split_args[0] not in self.classes:
             print("** class doesn't exist **")
         elif len(split_args) == 1:
             print("** instance id missing **")
@@ -82,8 +85,8 @@ class HBNBCommand(cmd.Cmd):
         line = arg.split()
         obj_list = []
 
-        if len(line) == 1:
-            if line[0] in ["BaseModel"]:
+        if len(line) >= 1:
+            if line[0] in self.classes:
                 for key, value in HBNBCommand.obj_container.items():
                     if key.startswith(line[0]):
                         obj_list.append(str(value))
@@ -125,5 +128,5 @@ class HBNBCommand(cmd.Cmd):
         pass
 
 
-if __name__ == '__main__':
+if (__name__ == "__main__"):
     HBNBCommand().cmdloop()
