@@ -7,8 +7,6 @@ from models import storage
 
 class BaseModel():
 
-    current_date = datetime.now()
-
     def __init__(self, *args, **kwargs):
         """function that initialises a new instance
         Params
@@ -35,15 +33,14 @@ class BaseModel():
             """if not using kwargs(!kwargs go by the normal
             instatiation/creation of a new instance)"""
             self.id = str(uuid4())
-            self.created_at = BaseModel.current_date
-            self.updated_at = BaseModel.current_date
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
             storage.new(self)
 
     def save(self):
         """saving the current date(stored in a pubic instance variable)
         after every update"""
-        new_time = BaseModel.current_date
-        self.updated_at = new_time
+        self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):

@@ -2,7 +2,6 @@
 """module containing the cmd interpreter for project"""
 import cmd
 from models.base_model import BaseModel
-from models.engine import file_storage
 from models import storage
 from models.user import User
 from models.amenity import Amenity
@@ -16,7 +15,7 @@ class HBNBCommand(cmd.Cmd):
     """derrived class of the inbuilt cmd base class"""
 
     prompt = "(hbnb) "
-    obj_container = storage.all()
+    obj_cont = storage.all()
     classes = ["BaseModel", "User", "Place", "State",
                "City", "Amenity", "Review"]
 
@@ -55,13 +54,12 @@ class HBNBCommand(cmd.Cmd):
         elif split_args[0] not in self.classes:
             print("** class doesn't exist **")
         else:
-            for key in HBNBCommand.obj_container.keys():
+            for key in HBNBCommand.obj_cont.keys():
                 if str(key) == "{}.{}".format(split_args[0], split_args[1]):
-                    data_to_show = HBNBCommand.obj_container[key]
+                    data_to_show = HBNBCommand.obj_cont[key]
                     print(data_to_show)
-                    break
-                else:
-                    print("** no instance found **")
+                    return
+            print("** no instance found **")
 
     def do_destroy(self, arg):
         """metho that deletes the specified data from the
@@ -75,13 +73,12 @@ class HBNBCommand(cmd.Cmd):
         elif len(split_args) == 1:
             print("** instance id missing **")
         else:
-            for key in HBNBCommand.obj_container.keys():
+            for key in HBNBCommand.obj_cont.keys():
                 if str(key) == "{}.{}".format(split_args[0], split_args[1]):
-                    del HBNBCommand.obj_container[key]
+                    del HBNBCommand.obj_cont[key]
                     storage.save()
-                    break
-                else:
-                    print("** no instance found **")
+                    return
+            print("** no instance found **")
 
     def do_all(self, arg):
         """prints the string representation of all classes
@@ -92,21 +89,23 @@ class HBNBCommand(cmd.Cmd):
 
         if len(line) >= 1:
             if line[0] in self.classes:
-                for key, value in HBNBCommand.obj_container.items():
+                for key, value in HBNBCommand.obj_cont.items():
                     if key.startswith(line[0]):
                         obj_list.append(str(value))
             else:
                 print("** class doesn't exist **")
                 return
         else:
-            for value in HBNBCommand.obj_container.values():
+            for value in HBNBCommand.obj_cont.values():
                 obj_list.append(str(value))
 
         print(obj_list)
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id by
-        adding or updating attribute"""
+        adding or updating attribute
+        Usage:
+        update <class name> <id> <attribute name> "<attribute value>\""""
 
         split_args = arg.split()
         if len(split_args) == 0:
@@ -118,11 +117,11 @@ class HBNBCommand(cmd.Cmd):
         elif len(split_args) == 3:
             print("** value missing **")
         else:
-            for key in HBNBCommand.obj_container.keys():
+            for key in HBNBCommand.obj_cont.keys():
                 if str(key) == "{}.{}".format(split_args[0], split_args[1]):
-                    """I couldnt type cast the attribute value to """
-                    setattr(HBNBCommand.obj_container[key], split_args[2],
-                            split_args[3])
+                    real_value = type(split_args[2])(split_args[3]).strip('"')
+                    setattr(HBNBCommand.obj_cont[key], split_args[2],
+                            real_value)
                     storage.save()
                     break
                 else:
