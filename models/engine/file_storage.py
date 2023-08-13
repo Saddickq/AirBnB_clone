@@ -40,7 +40,13 @@ class FileStorage():
         if (isfile(FileStorage.__file_path)):
             with open(FileStorage.__file_path, "r") as file:
                 objects = json.loads(file.read())
-            from models import base_model, user, place, state, city, amenity, review
+            from models.base_model import BaseModel
+            from models.user import User
+            from models.amenity import Amenity
+            from models.city import City
+            from models.place import Place
+            from models.state import State
+            from models.review import Review
             for key, value in objects.items():
                 class_name = value["__class__"]
                 del value["__class__"]

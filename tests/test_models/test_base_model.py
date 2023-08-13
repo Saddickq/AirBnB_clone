@@ -57,5 +57,6 @@ class TestBaseModel(unittest.TestCase):
         actual = obj.to_dict()
         self.assertEqual(sorted(tuple(actual.keys())), sorted(expected))
 
+
 if __name__ == '__main__':
     unittest.main()
