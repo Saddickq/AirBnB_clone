@@ -80,3 +80,32 @@ class TestBaseModel(TestCase):
             console.onecmd("all InvalidClass")
             expected_output = "** class doesn't exist **"
             self.assertEqual(mock_stdout.getvalue().strip(), expected_output)
+
+    @patch('builtins.print')
+    def test_do_destroy_missing_class_name(self, mock_print):
+        """destroy test 1"""
+        console = HBNBCommand()
+        console.do_destroy('')
+        mock_print.assert_called_with("** class name missing **")
+
+    @patch('builtins.print')
+    def test_do_destroy_invalid_class_name(self, mock_print):
+        """destroy test 1"""
+        console = HBNBCommand()
+        console.do_destroy('InvalidClassName')
+        mock_print.assert_called_with("** class doesn't exist **")
+
+    @patch('builtins.print')
+    def test_do_destroy_missing_instance_id(self, mock_print):
+        """destroy test 1"""
+        console = HBNBCommand()
+        console.do_destroy('User')
+        mock_print.assert_called_with("** instance id missing **")
+
+    @patch('builtins.print')
+    def test_do_destroy_instance_not_found(self, mock_print):
+        """destroy test 1"""
+        console = HBNBCommand()
+        instance_id = 'non_existent_instance_id'
+        console.do_destroy(f'User {instance_id}')
+        mock_print.assert_called_with("** no instance found **")
