@@ -1,62 +1,82 @@
 #!/usr/bin/python3
-import unittest
+"""tests for base class"""
+from unittest import TestCase
 from models.base_model import BaseModel
-from uuid import uuid4
-import datetime
+from unittest.mock import patch
+from io import StringIO
+from console import HBNBCommand
+from datetime import datetime
+from os.path import isfile
 
 
-class TestBaseModel(unittest.TestCase):
+class TestBaseModel(TestCase):
     """Test cases for the BaseModel class and console"""
 
     def test_instance_creation(self):
         """Tests instance creation and attribute assignment"""
-        person = BaseModel(name="Saddiq", my_number=30)
-        self.assertEqual(person.name, "Saddiq")
-        self.assertEqual(person.my_number, 30)
+        my_model = BaseModel(name="Saddiq", my_number=30)
+        self.assertEqual(my_model.name, "Saddiq")
+        self.assertEqual(my_model.my_number, 30)
 
-    def test_my_number_is_integer(self):
-        """Tests my_number attribute with non-integer value"""
-        with self.assertRaises(ValueError):
-            my_model = BaseModel(name="Bob", my_number="thirty")
+    def test_string_attributes(self):
+        """Test whether id, name and email attributes are a string"""
+        my_model = BaseModel(name="Bob", email="ardiyq@gmail.com")
+        self.assertIsInstance(my_model.name, str)
+        self.assertIsInstance(my_model.email, str)
+
+    def test_non_string_attributes(self):
+        """Tests my_name attribute with integer value"""
+        my_model = BaseModel(age=40)
+        self.assertIsInstance(my_model.age, int)
 
     def test_id_is_uuid(self):
-        """Test if id attribute is a UUID object"""
-        my_model = BaseModel(name="Saddiq", my_number=28)
-        self.assertIsInstance(my_model.id, uuid4)
+        """Test if id attribute is string rep"""
+        my_model = BaseModel()
+        self.assertIsInstance(str(my_model.id), str)
+        self.assertEqual(len(my_model.id), 36)
+
+    def test_whether_datetime_of_update_n_created_at(self):
+        """Test created_at and updated at whether they are dto's"""
+        my_model = BaseModel()
+        self.assertIsInstance(my_model.created_at, datetime)
+        self.assertIsInstance(my_model.updated_at, datetime)
 
     def test_created_at_date(self):
-        """Test created_at attribute with datetime value"""
-        my_model = BaseModel(name="Michael", my_number=35)
-        self.assertIsInstance(my_model.created_at, datetime.datetime)
-
-    def test_updated_at_date(self):
         """Test updated_at attribute with datetime value"""
-        my_model = BaseModel(name="Michael", my_number=35)
-        self.assertIsInstance(my_model.updated_at, datetime.datetime)
+        my_model = BaseModel()
+        created_at = datetime.now()
+        self.assertEqual(my_model.created_at.date(), created_at.date())
 
-    def test_uuid_is_string(self):
-        """Test if id attribute is a string"""
-        my_model = BaseModel(name="Saddiq", age=30)
-        self.assertIsInstance(str(my_model.id), str)
-
-    def test_save(self):
-        """Test the save method"""
-        obj = BaseModel()
+    def test_save_updated_at(self):
+        """Test whehter after saving updated_at its stil a dto"""
+        my_model = BaseModel()
         updated_at = datetime.now()
 
-        self.assertEqual(obj.updated_at.date(), updated_at.date())
-        obj.save()
+        self.assertEqual(my_model.updated_at.date(), updated_at.date())
+        my_model.save()
         updated_at = datetime.now()
-
-        self.assertEqual(obj.updated_at.date(), updated_at.date())
+        self.assertEqual(my_model.updated_at.date(), updated_at.date())
 
     def test_to_dict(self):
-        """Test the to_dict method"""
-        expected = ("id", "created_at", "updated_at", "__class__")
-        obj = BaseModel()
-        actual = obj.to_dict()
-        self.assertEqual(sorted(tuple(actual.keys())), sorted(expected))
+        """Test the to_dict method for BaseModel with keyword arguments"""
+        my_model = BaseModel()
+        self.assertEqual(my_model.to_dict()["__class__"], "BaseModel")
+        self.assertIsInstance(my_model.id, str)
+        self.assertEqual(len(my_model.id), 36)
+        self.assertEqual(my_model.created_at.date(), datetime.now().date())
+        self.assertEqual(my_model.updated_at.date(), datetime.now().date())
 
+    def test_str_representation(self):
+        """ Test the __str__ method """
+        mm = BaseModel()
+        id = mm.id
+        di = mm.__dict__
+        self.assertEqual(str(mm), "[{}] ({}) {}".format("BaseModel", id, di))
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_do_all_invalid_class(self):
+        """Test 'all' command with invalid class argument"""
+        console = HBNBCommand()
+        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+            console.onecmd("all InvalidClass")
+            expected_output = "** class doesn't exist **"
+            self.assertEqual(mock_stdout.getvalue().strip(), expected_output)
