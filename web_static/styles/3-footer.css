@@ -1,0 +1,13 @@
+/* styles file for footer attribute in the html document */
+
+footer {
+    background-color: white;
+    height: 60px;
+    width: 100%;
+    border-top: 1px solid #CCCCCC;
+    align-items: center;
+    align-content: center;
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+}
