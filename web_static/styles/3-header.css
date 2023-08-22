@@ -7,3 +7,10 @@ header {
     border-bottom: 1px solid #CCCCCC;
 
 }
+
+header div {
+    background-image: url('../images/logo.png');
+    width: 142px;
+    height: 60px;
+    margin-left: 20px;
+}

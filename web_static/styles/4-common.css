@@ -1,0 +1,26 @@
+div.container{
+    width: 1000px;
+    margin: 30px auto;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+button{
+    font-size: 18px;
+    background-color: #FF5A5F;
+    color: #FFFFFF;
+    height: 48px;
+    width: 20%;
+    border: 0px;
+    border-radius: 4px;
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+button:hover{
+    opacity: 90%;
+}
